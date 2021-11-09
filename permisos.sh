@@ -31,12 +31,11 @@ retval=$?
 choice=`cat $tempfile`
 case $retval in
   0)
-    
-    if [ $? -eq 0 ] 
-    then
     echo "Elegiste la opcion '$choice'"
     nombreDominio=`$fundialog --stdout --title "nombre" --inputbox "Escribe el nuevo nombre del dominio mas el .local :" 5 82`
     sudo realm discover $nombreDominio
+    if [ $? -eq 0 ] 
+    then
         case $choice in
         1)
             echo "Denegar login a todos los usuarios y permitir login de un usuario en particular"
