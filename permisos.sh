@@ -34,17 +34,18 @@ case $retval in
     echo "Elegiste la opcion '$choice'"
     nombreDominio=`$fundialog --stdout --title "nombre" --inputbox "Escribe el nuevo nombre del dominio mas el .local :" 5 82`
     sudo realm discover $nombreDominio
-    if [ $? -eq 0 ]; then
+    if [ $? -eq 0 ] 
+    then
         case $choice in
         1)
             echo "Denegar login a todos los usuarios y permitir login de un usuario en particular"
-            nombreUsuario=`$fundialog --stdout --title "Denegar login a todos los usuarios y permitir login de un usuario en particular" --inputbox "Escribe el nuevo nombre del usuario que va a poder acceder a esta PC"  5 82`
+            nombreUsuario=`$fundialog --stdout --title "Denegar login a todos los usuarios y permitir login de un usuario en particular" --inputbox "Escribe el nuevo nombre del usuario que va a poder acceder a esta PC mas el @${nombreDominio}"  5 82`
             sudo realm deny -vR $nombreDominio -a
             sudo realm permit -vR $nombreDominio $nombreUsuario
             ;;
         2)
             echo "Denegar login a todos los usuarios y permitir login de un grupo en particular"
-            nombreGrupo=`$fundialog --stdout --title "Denegar login a todos los usuarios y permitir login de un grupo en particular" --inputbox "Escribe el nuevo nombre del grupo mas el @dominio.local que va a poder acceder a esta PC"  5 82`
+            nombreGrupo=`$fundialog --stdout --title "Denegar login a todos los usuarios y permitir login de un grupo en particular" --inputbox "Escribe el nuevo nombre del grupo mas el @dominio.local que va a poder acceder a esta PC mas el @${nombreDominio}"  5 82`
             sudo realm deny -vR $nombreDominio -a
             sudo realm permit -vR $nombreDominio -g  $nombreGrupo
             ;;
@@ -54,7 +55,7 @@ case $retval in
             ;;
         4)
             echo "Permitir login a un usuario particular del realm/Dominio"
-            nombreUsuario=`$fundialog --stdout --title "Permitir login a un usuario particular del realm/Dominio" --inputbox "Escribe el nuevo nombre del usuario que va a poder acceder a esta PC"  5 82`
+            nombreUsuario=`$fundialog --stdout --title "Permitir login a un usuario particular del realm/Dominio" --inputbox "Escribe el nuevo nombre del usuario que va a poder acceder a esta PC mas el @${nombreDominio}"  5 82`
             sudo realm permit -vR $nombreDominio $nombreUsuario
             ;;
         5)
@@ -63,17 +64,20 @@ case $retval in
             ;;
         6)
             echo "Permitir login a los miembros de un Grupo"
-            nombreGrupo=`$fundialog --stdout --title "Permitir login a los miembros de un Grupo" --inputbox "Escribe el nuevo nombre del grupo mas el @dominio.local que va a poder acceder a esta PC"  5 82`
+            nombreGrupo=`$fundialog --stdout --title "Permitir login a los miembros de un Grupo" --inputbox "Escribe el nuevo nombre del grupo mas el @dominio.local que va a poder acceder a esta PC mas el @${nombreDominio}"  5 82`
             sudo realm permit -vR $nombreDominio -g $nombreGrupo
             ;;
         7)
             echo "Denegar login a los miembros de un Grupo ya agregado"
-            nombreGrupo=`$fundialog --stdout --title "Denegar login a los miembros de un Grupo ya agregado" --inputbox "Escribe el nuevo nombre del grupo mas el @dominio.local que no va a poder acceder a esta PC"  5 82`
+            nombreGrupo=`$fundialog --stdout --title "Denegar login a los miembros de un Grupo ya agregado" --inputbox "Escribe el nuevo nombre del grupo mas el @dominio.local que no va a poder acceder a esta PC mas el @${nombreDominio}"  5 82`
             sudo realm permit -vR $nombreDominio -x $nombreGrupo
             ;;
         esac
+    else
+    dialog --infobox "No elegiste ninguna opcion" 5 82 ; sleep 3
+
     fi
-;;
+ ;;
 
     
   1)
